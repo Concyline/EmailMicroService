@@ -1,0 +1,5 @@
+dotnet new webapi --name Person --framework net8.0
+
+dotnet add package MailKit
+
+emailmicroservicedash@gmail.com  // senha padrao
