@@ -38,7 +38,9 @@ app.MapGet("/", () =>
 {
     //return Results.Ok("v1");
 
-    var html = File.ReadAllText("./src/docs.html"); // arquivo de documentação
+    Console.WriteLine("aqui");
+
+    var html = File.ReadAllText("docs.html"); // arquivo de documentação
     return Results.Content(html, "text/html");
 });
 
