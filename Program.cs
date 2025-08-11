@@ -40,7 +40,7 @@ app.MapGet("/", () =>
 
     Console.WriteLine("aqui");
 
-    var html = File.ReadAllText("./app/docs.html"); // arquivo de documentação
+    var html = File.ReadAllText("docs.html"); // arquivo de documentação
     return Results.Content(html, "text/html");
 });
 
