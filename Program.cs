@@ -1,4 +1,4 @@
-using EmailMicroService.Src;
+﻿using EmailMicroService.Src;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Builder;
 using MimeKit;
@@ -32,17 +32,52 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("PermitirTudo"); // aplica a pol�tica
+app.UseCors("PermitirTudo"); // aplica a política
 
 app.MapGet("/", () =>
 {
-    //return Results.Ok("v1");
+    var html = @"
+    <html>
+    <head>
+        <title>API Documentation</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; line-height: 1.6; }
+            h1 { color: #0a516d; }
+            code { background: #f4f4f4; padding: 2px 4px; border-radius: 4px; }
+            .endpoint { border-left: 4px solid #0a516d; padding-left: 10px; margin-bottom: 20px; }
+        </style>
+    </head>
+    <body>
+        <h1>📚 API Documentation</h1>
+        <p>Bem-vindo à documentação da API. Aqui estão os endpoints disponíveis:</p>
 
-    Console.WriteLine("aqui");
+        <div class='endpoint'>
+            <h2>POST /login</h2>
+            <p>Realiza autenticação do usuário.</p>
+            <strong>Body (JSON):</strong>
+            <pre>{ ""email"": ""string"", ""password"": ""string"" }</pre>
+            <strong>Retorno:</strong> 200 OK com token JWT.
+        </div>
 
-    var html = File.ReadAllText("docs.html"); // arquivo de documenta��o
+        <div class='endpoint'>
+            <h2>POST /send-recovery-email</h2>
+            <p>Envia o e-mail com token de recuperação de senha.</p>
+            <strong>Body (JSON):</strong>
+            <pre>{ ""email"": ""string"" }</pre>
+        </div>
+
+        <div class='endpoint'>
+            <h2>POST /reset-password</h2>
+            <p>Redefine a senha usando o token recebido por e-mail.</p>
+            <strong>Body (JSON):</strong>
+            <pre>{ ""token"": ""string"", ""novaSenha"": ""string"" }</pre>
+        </div>
+    </body>
+    </html>";
+
     return Results.Content(html, "text/html");
 });
+
 
 app.MapPost("/send", async (EmailRequest emailRequest) =>
 {
