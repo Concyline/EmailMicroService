@@ -36,7 +36,10 @@ app.UseCors("PermitirTudo"); // aplica a política
 
 app.MapGet("/", () =>
 {
-    return Results.Ok("v1");
+    //return Results.Ok("v1");
+
+    var html = File.ReadAllText("./src/docs.html"); // arquivo de documentação
+    return Results.Content(html, "text/html");
 });
 
 app.MapPost("/send", async (EmailRequest emailRequest) =>
@@ -85,7 +88,7 @@ app.MapPost("/send", async (EmailRequest emailRequest) =>
 
 
 
-//app.Urls.Add("http://+:80");
+app.Urls.Add("http://+:80");
 
 app.Run();
 

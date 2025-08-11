@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Documentação - Microserviço de Envio de E-mails</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
+    h1 { color: #0a516d; }
+    pre { background: #222; color: #0f0; padding: 10px; border-radius: 6px; overflow-x: auto; }
+    code { color: #ffcc00; }
+    .container { background: #fff; padding: 20px; border-radius: 8px; max-width: 900px; margin: auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>📧 API - Envio de E-mails</h1>
+    <p>Este microserviço envia e-mails via Gmail SMTP com corpo HTML e anexos.</p>
+
+    <h2>📍 Endpoint</h2>
+    <pre>POST /send</pre>
+
+    <h2>📥 Corpo da Requisição (JSON)</h2>
+    <pre>{
+  "Server": "emailmicroservicedash@gmail.com",
+  "AppPassWord": "SUA_SENHA_DE_APP",
+  "Sender": "Administrador",
+  "To": "destinatario@exemplo.com",
+  "Subject": "Assunto do e-mail",
+  "Body": "<h1>Olá</h1><p>Mensagem HTML aqui</p>",
+  "Attachments": [
+    {
+      "FileName": "documento.pdf",
+      "Base64": "JVBERi0xLjQKJc...",
+      "ContentType": "application/pdf"
+    }
+  ]
+}</pre>
+
+    <h2>📤 Respostas</h2>
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th>Exemplo</th>
+        </tr>
+        <tr>
+            <td>200</td>
+            <td>E-mail enviado com sucesso</td>
+            <td><code>"Email enviado com sucesso"</code></td>
+        </tr>
+        <tr>
+            <td>400</td>
+            <td>Erro no anexo ou parâmetros inválidos</td>
+            <td><code>"Erro no anexo 'arquivo.txt': mensagem do erro"</code></td>
+        </tr>
+        <tr>
+            <td>500</td>
+            <td>Erro ao enviar o e-mail</td>
+            <td><code>"Erro ao enviar email: mensagem do erro"</code></td>
+        </tr>
+    </table>
+
+    <h2>🛠 Exemplo de Requisição usando <code>fetch</code> (JavaScript)</h2>
+    <pre>
+fetch("https://emailmicroservice.onrender.com/send", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        Server: "emailmicroservicedash@gmail.com",
+        AppPassWord: "SUA_SENHA_DE_APP",
+        Sender: "Administrador",
+        To: "destinatario@exemplo.com",
+        Subject: "Olá!",
+        Body: "<h1>Teste</h1><p>Enviado via API</p>",
+        Attachments: []
+    })
+})
+.then(res => res.text())
+.then(console.log)
+.catch(console.error);
+    </pre>
+
+    <h2>⚠️ Observações</h2>
+    <ul>
+        <li>É necessário habilitar <strong>Senha de App</strong> na conta Gmail (Configurações → Segurança → Senhas de app).</li>
+        <li>O campo <code>Body</code> aceita HTML que será renderizado no e-mail.</li>
+        <li>O campo <code>Attachments</code> é opcional.</li>
+    </ul>
+</div>
+</body>
+</html>
